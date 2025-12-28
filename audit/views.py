@@ -12,7 +12,7 @@ class AuditModelViewSet(viewsets.ModelViewSet):
     serializer_class = AuditSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 
-class AuditListAPIview(generics.listAPIView):
+class AuditListAPIView(generics.ListAPIView):
     queryset = Audit.objects.all()
     serializer_class = AuditSerializer
     permission_classes = [IsAuthenticated]

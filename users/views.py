@@ -2,10 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets
 from .models import User
 from .serializers import UserSerializer, AdminUserSerializer
-from rest_framwork.permissions import IsAuthenticated, IsAdminUser 
+from rest_framework.permissions import IsAuthenticated, IsAdminUser 
 
 # Create your views here.
-class AdminUserModelViewset(viewsets.ModelViewSet):#all CRUD operations
+class AdminUserModelViewSet(viewsets.ModelViewSet):#all CRUD operations
     queryset = User.objects.all()
     serializer_class = AdminUserSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]  #only admin users can access
@@ -17,6 +17,8 @@ class UserListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
 class UserPartialUpdateAPIView(generics.UpdateAPIView):
-    queryset = User.objects.filter(id=self.request.user.id)#only allow updating own details
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self): #get queryset method used as this is a dynamic query
+        return User.objects.filter(id=self.request.User.id)#only allow updating own details

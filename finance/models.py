@@ -31,11 +31,11 @@ class Loans(models.Model):
         return f"Loan for {self.membership.user.name} - {self.amount} ({self.status})"
     
 class Transactions(models.Model):
-    membership = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="transactions")
-    ammount = models.DecimalField(max_digits=10, decimal_places=2)
+    membership = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="membership_transactions") #related_name 1
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_type = models.CharField(max_length=20, choices=[('contribution', 'Contribution'), ('loan_disbursement', 'Loan Disbursement'), ('loan_repayment', 'Loan Repayment'), ('investment', 'Investment')])
     transacted_at = models.DateTimeField(auto_now_add=True)
-    transacted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="transactions")
+    transacted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="performed_transactions") #related names must be different as they point to same model
     reference = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
