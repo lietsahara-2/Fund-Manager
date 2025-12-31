@@ -44,8 +44,22 @@ INSTALLED_APPS = [
     'groups',
     'finance',
     'audit',
-    
+    #token authentication
+    'rest_framework.authtoken',
     ]
+
+#added dictionary for rest framework authentication settings
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+#must be added for custom user model and so before migrations
+AUTH_USER_MODEL = 'users.User'#users is the app name and User is the model name
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
