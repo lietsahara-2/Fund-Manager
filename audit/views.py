@@ -7,11 +7,6 @@ from .serializers import AuditSerializer
 
 
 # Create your views here.
-class AuditModelViewSet(viewsets.ModelViewSet):
-    queryset = Audit.objects.all()
-    serializer_class = AuditSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser]
-
 class AuditListAPIView(generics.ListAPIView):
     queryset = Audit.objects.all()
     serializer_class = AuditSerializer

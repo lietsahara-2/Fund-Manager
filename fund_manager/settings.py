@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&xaf$@2#-6id%=)y&gl^gt(=+7j19%0p^vsgem+mdyk487x5e=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fund-manager-cf9a.onrender.com']
 
 
 # Application definition

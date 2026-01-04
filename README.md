@@ -173,15 +173,14 @@ python manage.py runserver
 
 * Transactions are **system-generated only** 
 * Approval logic lives in **custom DRF actions**
-* Comments in code explain business logic and future extensibility
+* Comments explain business logic and future improvements
 * Filtering by user can be enabled later if required
 
 ---
 
 ## Project Scope
 
-This project is for educational purposes and can be extended for real-world
-use with additional security, validations, and UI improvements.
+This project is for educational purposes and can be extended for real world use with additional security, validations, and UI improvements.
 
 
 
