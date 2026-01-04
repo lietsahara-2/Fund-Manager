@@ -110,6 +110,20 @@ Reject loan (admin)   PATCH   `/finance/loansadmin/{id}/reject/`
 ### Transactions
 View transactions   GET     `/finance/transactions/`
 
+## Audit
+View user actions   GET   `/audit/`
+
+## Groups
+View groups             GET     `/goups/listgroups/`
+View memberships        GET     `/groups/listmemberships`
+Manage  groups          POST    `/groups/groupadmin`
+Modify memberships      POST    `/groups/membershipadmin/`
+
+## Users
+View users              GET     `/users/listuser/`
+manage users            POST    `/users/adminuser/`
+updating own info       PATCH   `/users/update/`
+
 ---
 
 ## Installation & Setup

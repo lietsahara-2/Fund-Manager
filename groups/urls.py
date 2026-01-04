@@ -8,7 +8,7 @@ router.register(r'membershipadmin', MembershipsModelViewSet, basename='membershi
 
 urlpatterns=[
     path('listgroups/', GroupListAPIView.as_view(), name='group-list'),
-    path('listmembership/', MembershipsListAPIView.as_view(), name='membership-list'),
+    path('listmemberships/', MembershipsListAPIView.as_view(), name='membership-list'),
 ]
 
 urlpatterns += router.urls

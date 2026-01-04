@@ -20,5 +20,5 @@ class UserPartialUpdateAPIView(generics.UpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self): #get queryset method used as this is a dynamic query
-        return User.objects.filter(id=self.request.User.id)#only allow updating own details
+    def get_object(self):
+        return self.request.user #user can only update their own details
