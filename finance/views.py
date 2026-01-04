@@ -4,10 +4,12 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Contributions, Loans, Transactions
 from .serializers import ContributionsSerializer, LoansSerializer, TransactionsSerializer
 #importing for custom actions
+from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
 from groups.models import Memberships
+from .utils import log_audit
 
 # Create your views here.
 class ContributionsModelViewSet(viewsets.ModelViewSet):
@@ -30,7 +32,10 @@ class ContributionsModelViewSet(viewsets.ModelViewSet):
         transaction_type='contribution',
         transacted_by=request.user,
         reference=contributions.payment_ref
-    )
+    )   
+        #saving audit log
+        log_audit("contribution created", contributions, request.user)
+
         return Response({'status':'contribution approved'})
 
 
@@ -56,6 +61,9 @@ class LoansModelViewSet(viewsets.ModelViewSet):
         transacted_by=request.user,
         reference=loan.reference)
 
+        #saving audit log
+        log_audit("Approved Loan", loan, request.user)
+
         return Response({'status': 'loan approved'})
 
         # Additional custom action to reject a loan
@@ -66,6 +74,9 @@ class LoansModelViewSet(viewsets.ModelViewSet):
         loan.approved_by = request.user
         loan.approved_at = timezone.now()
         loan.save()
+
+        log_audit("Rejected Loan", loan, request.user)
+
         return Response({'status': 'loan rejected'})
     
     #Admin doesn't edit transactions directly, so no viewset for Transactions
@@ -80,7 +91,10 @@ class ContributionsListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        membership = Memberships.objects.get(user=self.request.user)
+        try:
+            membership = Memberships.objects.get(user=self.request.user)
+        except Memberships.DoesNotExist:
+            raise serializers.ValidationError("You must be a member of a group to make a contribution.")
         serializer.save(membership=membership)
 
 class LoansListCreateAPIView(generics.ListCreateAPIView):
@@ -89,7 +103,10 @@ class LoansListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        membership = Memberships.objects.get(user=self.request.user)
+        try:
+            membership = Memberships.objects.get(user=self.request.user)
+        except Memberships.DoesNotExist:
+            raise serializers.ValidationError("You must be a member of a group to request a loan.")
         serializer.save(membership=membership)
 
 class TransactionsListAPIView(generics.ListAPIView):
@@ -99,4 +116,6 @@ class TransactionsListAPIView(generics.ListAPIView):
 
 #The financial group the app is created for allows users to view all transactions thus, no filtering by user is applied here
 # Users can view all transactions in this version (no per-user filtering)
+
+
 
