@@ -98,7 +98,7 @@ Members make requests and administrators approve or reject them.
 
 Create contribution           POST    `/finance/contributions/`                   
 View contributions            GET     `/finance/contributions/`        
-Approve contribution (admin)  PATCH   `/finance/loansadmin/{id}/approve/` 
+Approve contribution (admin)  PATCH   `/finance/contributionsadmin/{id}/approve/` 
 
 ### Loans
 
