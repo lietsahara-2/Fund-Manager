@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -60,6 +61,10 @@ REST_FRAMEWORK={
 
 #must be added for custom user model and so before migrations
 AUTH_USER_MODEL = 'users.User'#users is the app name and User is the model name
+
+#changing the login redirect url
+LOGIN_REDIRECT_URL = '/users/listuser/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,13 +81,17 @@ ROOT_URLCONF = 'fund_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #adding context processors
+                'django.template.context_processors.debug',
+                'django.template.context_processors.csrf',
+
             ],
         },
     },
