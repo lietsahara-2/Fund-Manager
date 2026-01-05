@@ -14,13 +14,15 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-#load environment variables from .env file
-load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+#load environment variables from .env file
+if (BASE_DIR / ".env").exists():
+    load_dotenv()
+    
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
