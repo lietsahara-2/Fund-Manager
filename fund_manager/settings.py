@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #load environment variables from .env file
 if (BASE_DIR / ".env").exists():
     load_dotenv()
-    
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -156,6 +156,8 @@ if not DEBUG: #disables for development
     X_FRAME_OPTIONS = 'DENY'            # Prevent clickjacking attacks
     SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS filtering
     SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent content sniffing
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
