@@ -141,28 +141,39 @@ cd project
 python -m venv myenv
 source myenv/bin/activate
 ```
+### 3. Create a .env File
 
+In the root directory of the project (where manage.py is located), create a .env file with the following contents:
+```ini
+DJANGO_SECRET_KEY=input secret key here
+DEBUG=True
+```
 
-### 3.Install Dependencies
+Generate the secrete key using in the terminal
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+### 4.Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
+### 5. Apply Migrations
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5. Create Superuser
+### 6. Create Superuser
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. Run Server
+### 7. Run Server
 
 ```bash
 python manage.py runserver
@@ -175,6 +186,7 @@ python manage.py runserver
 * Approval logic lives in **custom DRF actions**
 * Comments explain business logic and future improvements
 * Filtering by user can be enabled later if required
+* The secret key lives in the .env file for safer deployment
 
 ---
 

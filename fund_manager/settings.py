@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+#load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&xaf$@2#-6id%=)y&gl^gt(=+7j19%0p^vsgem+mdyk487x5e='
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')#uses the secrete key in the .env file
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY not set.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True" #sets debug to false if not specified in .env
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fund-manager-cf9a.onrender.com']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1',
+    'fund-manager-cf9a.onrender.com'
+    ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://fund-manager-cf9a.onrender.com",
+]
+
+
 
 
 # Application definition
@@ -129,6 +146,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Security settings for production
+if not DEBUG: #disables for development
+    SECURE_SSL_REDIRECT = True          # Redirects HTTP to HTTPS 
+    SESSION_COOKIE_SECURE = True        # Ensures session cookies are only sent over HTTPS 
+    CSRF_COOKIE_SECURE = True           # Ensures CSRF cookies are only sent over HTTPS 
+    X_FRAME_OPTIONS = 'DENY'            # Prevent clickjacking attacks
+    SECURE_BROWSER_XSS_FILTER = True    # Enable browser XSS filtering
+    SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent content sniffing
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
